@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="../static/jquery.min.js"></script>
+
+</head>
+<body>
+<form action="http://localhost:5000/cgi-bin/basic" method="POST">
+    {{ form.csrf_token }}
+    <div>
+        {{ form.token }}
+    </div>
+    <div>
+        <button type="submit">Send my greetings</button>
+    </div>
+</form>
+
+<div>
+    <button onclick="basicAuthAction_test();">Send request</button>
+</div>
+
+<script>
+    var csrf_token = $('input[name="csrfmiddlewaretoken"]').attr('value');
+    console.log(csrf_token)
+    function basicAuthAction_test() {
+        var check = true;
+        if (check) {
+            const url = "http://localhost:5000/cgi-bin/basic";
+            var data = {
+                token: "MTYxOTY3MDkxMS44MTU3NDc3"
+            };
+
+            $.ajax({
+                url: url,
+                data: JSON.stringify(data),
+                method: 'POST',
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function (data) {
+                    console.log("Error");
+                }
+            });
+
+        } else {
+            document.getElementById("auth-fail").style.display = "block";
+        }
+    }
+</script>
+</body>
+</html>
